@@ -6,7 +6,7 @@ function PokemonDetail() {
   const { id } = useParams();
   const [pokemon, setPokemon] = useState(null);
   
-  //errors
+  //loading & error
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -22,11 +22,6 @@ function PokemonDetail() {
         const res = await fetch(
           `https://pokeapi.co/api/v2/pokemon/${id}`
         );
-        
-        //if fail
-        if (!res.ok) {
-          throw new Error("Failed to fetch Pokémon");
-        }
 
         const data = await res.json();
         
@@ -49,7 +44,7 @@ function PokemonDetail() {
   }
 
   if (error) {
-    return <p className="p-6 text-red-500">⚠️ {error}</p>;
+    return <p className="p-6 text-red-500">{error}</p>;
   }
 
   //blank

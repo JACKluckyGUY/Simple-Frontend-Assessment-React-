@@ -27,27 +27,25 @@ function App() {
   //search
   const [searchTerm, setSearchTerm] = useState("");
 
+  //favorites
+  const [favorites, setFavorites] = useState(() => {
+  const saved = localStorage.getItem("favorites");
+  return saved ? JSON.parse(saved) : [];
+  });
 
     //start
     //react loop
     const fetchPokemon = async () => {
       try {
 
-        //delcare
+        //Set
         setLoading(true);
         setError(null);
         
         //fetching API
         const res = await fetch(
           "https://pokeapi.co/api/v2/pokemon?limit=1025"
-        );
-
-        //if fail send error
-        // can't output as intended, probably because it's overwhited, will refind it if given time
-        if (!res.ok) {
-          throw new Error("Failed to fetch Pokémon list");
-        }
-        
+        );        
         
         const data = await res.json();
         
@@ -55,12 +53,6 @@ function App() {
           data.results.map(async (p) => {
             try {
               const res = await fetch(p.url);
-              
-              //if fail send error
-              // can't output as intended, probably because it's overwhited, will refind it if given time
-              if (!res.ok) {
-                throw new Error(`Failed to load ${p.name}`);
-              }
 
               return await res.json();
             } catch (err) {
@@ -79,7 +71,23 @@ function App() {
         }
       };
 
-    //react loop
+      //Fav Toggle
+      const toggleFavorite = (pokemonId) => {
+        setFavorites((prev) =>
+          prev.includes(pokemonId)
+            ? prev.filter((id) => id !== pokemonId)
+            : [...prev, pokemonId]
+        );
+      };
+
+      //Store Fav
+      useEffect(() => {
+        localStorage.setItem(
+          "favorites",
+          JSON.stringify(favorites)
+        );
+      }, [favorites]);
+
     useEffect(() => {
       fetchPokemon();
     }, []);
@@ -128,7 +136,7 @@ return (
               {/* ERROR */}
               {error && (
                 <div className="text-red-500">
-                  <p>⚠️ {error}</p>
+                  <p>{error}</p>
 
                   <button
                     onClick={fetchPokemon}
@@ -159,6 +167,7 @@ return (
                         key={p.id}
                         className="bg-white shadow rounded-lg p-4 text-center block hover:shadow-lg transition"
                       >
+                        
                         <img
                           src={p.sprites.front_default}
                           alt={p.name}
@@ -170,6 +179,19 @@ return (
                         </h2>
 
                         <p>#{p.id}</p>
+                        
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            toggleFavorite(p.id);
+                          }}
+                          className="mt-2 px-3 py-1 bg-yellow-400 rounded"
+                        >
+                          {favorites.includes(p.id)
+                            ? "Favorited"
+                            : "Favorite"}
+                        </button>
+
                       </Link>
                     ))}
                   </div>
@@ -185,7 +207,15 @@ return (
         />
 
         {/* FAVORITES */}
-        <Route path="/favorites" element={<Favorites />} />
+        <Route
+          path="/favorites"
+          element={
+            <Favorites
+              pokemon={pokemon}
+              favorites={favorites}
+            />
+          }
+        />
       </Routes>
     </>
   );
