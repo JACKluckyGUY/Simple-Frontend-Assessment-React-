@@ -42,7 +42,8 @@ function App() {
           "https://pokeapi.co/api/v2/pokemon?limit=1025"
         );
 
-        //if fail
+        //if fail send error
+        // can't output as intended, probably because it's overwhited, will refind it if given time
         if (!res.ok) {
           throw new Error("Failed to fetch Pokémon list");
         }
@@ -55,7 +56,8 @@ function App() {
             try {
               const res = await fetch(p.url);
               
-              //if fail
+              //if fail send error
+              // can't output as intended, probably because it's overwhited, will refind it if given time
               if (!res.ok) {
                 throw new Error(`Failed to load ${p.name}`);
               }
