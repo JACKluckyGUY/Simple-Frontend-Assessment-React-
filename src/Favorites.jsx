@@ -11,10 +11,9 @@ function Favorites({ pokemon, favorites }) {
         Favorite Pokémon
       </h1>
 
-
       {favoritePokemon.length === 0 ? (
         <p className="text-blue-500">
-          Loading Pokémon...
+           Loading Pokémon...
         </p>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
