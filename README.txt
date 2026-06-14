@@ -5,7 +5,7 @@
     Step 1: install Node.js
     Step 2: Open Terminal 
     Step 3: git clone https://github.com/JACKluckyGUY/Simple-Frontend-Assessment-React-.git
-    Step 4: cd repo-name
+    Step 4: cd Simple-Frontend-Assessment-React-
     Step 5: npm install
     Step 6: npm run dev
 
