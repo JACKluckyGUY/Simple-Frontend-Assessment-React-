@@ -7,7 +7,8 @@
     Step 3: git clone https://github.com/JACKluckyGUY/Simple-Frontend-Assessment-React-.git
     Step 4: cd Simple-Frontend-Assessment-React-
     Step 5: npm install
-    Step 6: npm run dev
+    Step 6: npm install tailwindcss @tailwindcss/vite (optional)
+    Step 7: npm run dev
 
 3) Any bonus features you implemented (If any)
     - a search bar
